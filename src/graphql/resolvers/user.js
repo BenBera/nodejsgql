@@ -14,8 +14,8 @@ export default {
     register: async (root, args, { req }, info) => {
       console.log(args);
       //Validate user data
-      // await Joi.valid(args, regesterValidate, { abortEarly: false });
-      await regesterValidate.validate(args,{ abortEarly: false } )
+      await Joi.valid(args, regesterValidate, { abortEarly: true });
+      // await regesterValidate.validate(args,{ abortEarly: true} )
       //Cheack if the user is already in the database with the same username
       let user = await User.findOne({ username: args.username });
       if (user) {
@@ -32,7 +32,6 @@ export default {
 
       // issue the token and refreshToken
       let tokens = await issueTokens(newUser)
-      console.log(tokens)
 
       return {
         user: newUser,
